@@ -23,7 +23,7 @@ Here, we removed the visual components of qwen2.5-vl and merged all LoRA adapter
 | [`jinaai/jina-embeddings-v4-text-code-GGUF`](https://huggingface.co/jinaai/jina-embeddings-v4-text-code-GGUF) | Code retrieval |
 | [`jinaai/jina-embeddings-v4-text-matching-GGUF`](https://huggingface.co/jinaai/jina-embeddings-v4-text-matching-GGUF) | Sentence similarity |
 
-All models above provide F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q3_K_M quantizations. 
+All models above provide F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q3_K_M quantizations. More quantizations such as Unsloth-like dynamic quantizations are on the way.
 
 ### Limitations
 - They can not handle image input.
@@ -38,14 +38,13 @@ TBA
 
 First [install llama.cpp](https://github.com/ggml-org/llama.cpp/blob/master/docs/install.md).
 
-Run `llama-server` to host the embedding model as OpenAI API compatible HTTP server:
+Run `llama-server` to host the embedding model as OpenAI API compatible HTTP server. As an example for using `text-matching` with `F16`, you can do:
 
 ```bash
 llama-server -hf jinaai/jina-embeddings-v4-text-matching-GGUF:F16 --embedding --pooling mean -ub 8192
 ```
 
 Remarks:
-- `-hf jinaai/jina-embeddings-v4-text-matching-GGUF:F16` for direct download F16 precision from Huggingface, you can change `F16` to `Q8_0`, `Q6_K`, ...
 - `--pooling mean` is required as v4 is mean-pooling embeddings.
 - setting `--pooling none` is *not* as same as the multi-vector embeddings of v4. The original v4 has a trained MLP on top of the last hidden states to output multi-vector embeddings, each has 128-dim. In GGUF, this MLP was chopped off.
 
