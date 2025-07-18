@@ -13,7 +13,7 @@ Here, we removed the visual components of qwen2.5-vl and merged all LoRA adapter
 | HuggingFace Repo | Task |
 |---|---|
 | [`jina-embeddings-v4-text-retrieval-GGUF`](https://huggingface.co/jinaai/jina-embeddings-v4-text-retrieval-GGUF) | Text retrieval |
-| [`jina-embeddings-v4-text-code-GGUF`](https://huggingface.co/jinaai/jina-embeddings-v4-text-code-GGUF) | Code retrieval (add `Query: ` or `Passage:` prefix to your input!) |
+| [`jina-embeddings-v4-text-code-GGUF`](https://huggingface.co/jinaai/jina-embeddings-v4-text-code-GGUF) | Code retrieval |
 | [`jina-embeddings-v4-text-matching-GGUF`](https://huggingface.co/jinaai/jina-embeddings-v4-text-matching-GGUF) | Sentence similarity |
 
 All models above provide F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q3_K_M quantizations.
