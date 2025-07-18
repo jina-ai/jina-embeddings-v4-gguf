@@ -1,0 +1,1 @@
+# jina-embeddings-v4-gguf
