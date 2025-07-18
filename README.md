@@ -11,7 +11,7 @@ A collection of GGUF and quantizations for [`jina-embeddings-v4`](https://huggin
 
 ## Overview
 
-`jina-embeddings-v4` is a cutting-edge universal embedding model [for multimodal multilingual retrieval](https://jina.ai/news/jina-embeddings-v4-universal-embeddings-for-multimodal-multilingual-retrieval). It's based on `qwen2.5-vl-3b-instruct` with three LoRA adapters: `retrieval` (optimized for retrieval tasks), `text-matching` (optimized for sentence similarity tasks), and `code` (optimized for code retrieval tasks). It is also trained for visual document retrieval and late-interaction style multi-vector output.
+`jina-embeddings-v4` is a cutting-edge universal embedding model [for multimodal multilingual retrieval](https://jina.ai/news/jina-embeddings-v4-universal-embeddings-for-multimodal-multilingual-retrieval). It's based on `qwen2.5-vl-3b-instruct` with three LoRA adapters: `retrieval` (optimized for retrieval tasks), `text-matching` (optimized for sentence similarity tasks), and `code` (optimized for code retrieval tasks). It is also heavily trained for visual document retrieval and late-interaction style multi-vector output.
 
 ## Text-Only Task-Specific Models
 
@@ -23,8 +23,17 @@ Here, we removed the visual components of qwen2.5-vl and merged all LoRA adapter
 | [`jina-embeddings-v4-text-code-GGUF`](https://huggingface.co/jinaai/jina-embeddings-v4-text-code-GGUF) | Code retrieval[^1] |
 | [`jina-embeddings-v4-text-matching-GGUF`](https://huggingface.co/jinaai/jina-embeddings-v4-text-matching-GGUF) | Sentence similarity |
 
-All models above provide F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q3_K_M quantizations.
+All models above provide F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q3_K_M quantizations. 
+
+### Limitations
+- They can not handle image input.
+- They can not output multi-vector embeddings.
+
 [^1]: When using retrieval and code models, you must add `Query: ` or `Passage: ` in front of the input. This ensure the query and retrieval targets are correctly embedded into the correct space.
+
+## Multimodal Task-Specific Models
+
+TBA
 
 ## Getting Embeddings
 
