@@ -34,15 +34,19 @@ All models above provide F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q3_K_M quantizations.
 
 TBA
 
-## Getting Embeddings
+## Get Embeddings
 
 First [install llama.cpp](https://github.com/ggml-org/llama.cpp/blob/master/docs/install.md).
 
-Run `llama-server` to host the embedding model as an HTTP server:
+Run `llama-server` to host the embedding model as OpenAI API compatible HTTP server:
 
 ```bash
 llama-server -m jina-embeddings-v4-text-matching-F16.gguf --embedding --pooling mean
 ```
+
+Remarks:
+- `--pooling mean` is required as v4 is mean-pooling embeddings.
+- setting `--pooling none` is *not* as same as the multi-vector embeddings of v4. The original v4 has a trained MLP on top of the last hidden states to output multi-vector embeddings, each has 128-dim. In GGUF, this MLP was chopped off.
 
 Client:
 
