@@ -1,3 +1,10 @@
+---
+license: cc-by-nc-4.0
+base_model:
+- jinaai/jina-embeddings-v4
+base_model_relation: quantized
+---
+
 # jina-embeddings-v4-gguf
 
 A collection of GGUF and quantizations for [`jina-embeddings-v4`](https://huggingface.co/jinaai/jina-embeddings-v4).
