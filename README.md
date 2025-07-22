@@ -72,8 +72,8 @@ curl -X POST "http://127.0.0.1:8080/v1/embeddings" \
     "input": [
       "Query: A beautiful sunset over the beach",
       "Query: Un beau coucher de soleil sur la plage",
-      "Query: 海滩上美丽的日落",
-      "Query: 浜辺に沈む美しい夕日"
+      "Passage: 海滩上美丽的日落",
+      "Passage: 浜辺に沈む美しい夕日"
     ]
   }'
 ```
@@ -83,3 +83,5 @@ You can also use `llama-embedding` for one-shot embedding:
 ```bash
 llama-embedding -hf jinaai/jina-embeddings-v4-text-matching-GGUF:F16 --pooling mean -p "jina is awesome"  2>/dev/null
 ```
+
+Note, v4 is trained with Matryoshka embeddings, and converting to GGUF doesn't break the Matryoshka feature. Let's say you get embeddings with shape `NxD` - you can simply use `embeddings[:, :truncate_dim]` to get smaller truncated embeddings. Note that not every dimension is trained though. For v4, you can set `truncate_dim` to any of these values: `[128, 256, 512, 1024, 2048]`.
