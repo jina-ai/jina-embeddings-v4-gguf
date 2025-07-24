@@ -78,7 +78,7 @@ curl -X POST "http://127.0.0.1:8080/v1/embeddings" \
   }'
 ```
 
-To get fully consistent results as if you do AutoModel.from_pretrained("jinaai/jina-embeddings-v4")..., you need to be careful about the prefix and manually add them to your input to GGUF. Here's a reference table:
+To get fully consistent results as if you were using `AutoModel.from_pretrained("jinaai/jina-embeddings-v4")...`, you need to be very careful about the prefixes and manually add them to your GGUF model inputs. Here's a reference table:
 
 | Input Type | Task | `prompt_name` (Role) | Actual Input Processed by Model |
 |------------|------|-------------|-------------------------------|
