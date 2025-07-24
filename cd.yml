@@ -1,0 +1,22 @@
+name: Sync README to HuggingFace
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  sync-readme:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+        
+    - name: Install huggingface_hub and upload README
+      env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      run: |
+        pip install huggingface_hub
+        huggingface-cli upload jinaai/jina-embeddings-v4-text-retrieval-GGUF README.md README.md
+        huggingface-cli upload jinaai/jina-embeddings-v4-text-code-GGUF README.md README.md
+        huggingface-cli upload jinaai/jina-embeddings-v4-text-matching-GGUF README.md README.md
