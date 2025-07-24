@@ -55,10 +55,10 @@ curl -X POST "http://127.0.0.1:8080/v1/embeddings" \
   -H "Content-Type: application/json" \
   -d '{
     "input": [
-      "A beautiful sunset over the beach",
-      "Un beau coucher de soleil sur la plage",
-      "海滩上美丽的日落",
-      "浜辺に沈む美しい夕日"
+      "Query: A beautiful sunset over the beach",
+      "Query: Un beau coucher de soleil sur la plage",
+      "Query: 海滩上美丽的日落",
+      "Query: 浜辺に沈む美しい夕日"
     ]
   }'
 ```
@@ -77,6 +77,18 @@ curl -X POST "http://127.0.0.1:8080/v1/embeddings" \
     ]
   }'
 ```
+
+To get fully consistent results as if you do AutoModel.from_pretrained("jinaai/jina-embeddings-v4")..., you need to be careful about the prefix and manually add them to your input to GGUF. Here's a reference table:
+
+| Input Type | Task | `prompt_name` (Role) | Actual Input Processed by Model |
+|------------|------|-------------|-------------------------------|
+| **Text** | `retrieval` | `query` (default) | `Query: {original_text}` |
+| **Text** | `retrieval` | `passage` | `Passage: {original_text}` |
+| **Text** | `text-matching` | `query` (default) | `Query: {original_text}` |
+| **Text** | `text-matching` | `passage` | `Query: {original_text}` ⚠️ |
+| **Text** | `code` | `query` (default) | `Query: {original_text}` |
+| **Text** | `code` | `passage` | `Passage: {original_text}` |
+| **Image** | Any task | N/A | `<\|im_start\|>user\n<\|vision_start\|>\<\|image_pad\|>\<\|vision_end\|>Describe the image.\<\|im_end\|>` |
 
 You can also use `llama-embedding` for one-shot embedding:
 
