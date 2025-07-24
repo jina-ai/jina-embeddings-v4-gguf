@@ -78,7 +78,9 @@ curl -X POST "http://127.0.0.1:8080/v1/embeddings" \
   }'
 ```
 
-To get fully consistent results as if you were using `AutoModel.from_pretrained("jinaai/jina-embeddings-v4")...`, you need to be very careful about the prefixes and manually add them to your GGUF model inputs. Here's a reference table:
+### Consistent Result vs `AutoModel.from_pretrained`
+
+To get fully consistent results as if you were [using `AutoModel.from_pretrained("jinaai/jina-embeddings-v4")...`](https://huggingface.co/jinaai/jina-embeddings-v4#usage), you need to be **very careful** about the prefixes and manually add them to your GGUF model inputs. Here's a reference table:
 
 | Input Type | Task | `prompt_name` (Role) | Actual Input Processed by Model |
 |------------|------|-------------|-------------------------------|
@@ -91,7 +93,7 @@ To get fully consistent results as if you were using `AutoModel.from_pretrained(
 | **Image** | Any task | N/A | `<\|im_start\|>user\n<\|vision_start\|>\<\|image_pad\|>\<\|vision_end\|>Describe the image.\<\|im_end\|>` |
 
 
-To some users, ⚠️ indicates a somewhat surprising behavior where prompt_name='passage' gets overridden to "Query: " when using text-matching in the original AutoModel.from_pretrained("jinaai/jina-embeddings-v4").... However, this is reasonable since text-matching is a sentence similarity task with no left/right roles—the inputs are symmetric.
+To some users, ⚠️ indicates a somewhat surprising behavior where `prompt_name='passage'` gets overridden to `"Query: "` when using `text-matching` in the original `AutoModel.from_pretrained("jinaai/jina-embeddings-v4")....` However, this is reasonable since `text-matching` is a sentence similarity task with no left/right roles—the inputs are symmetric.
 
 You can also use `llama-embedding` for one-shot embedding:
 
