@@ -25,11 +25,11 @@ Here, we removed the visual components of qwen2.5-vl and merged all LoRA adapter
 
 All models above provide F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q3_K_M and dynamic quantizations such as IQ1_S, IQ2_XXS.
 
-### Limitations
+### Limitations vs original v4 model
 - They can not handle image input.
 - They can not output multi-vector embeddings.
-- When using retrieval and code models, you must add `Query: ` or `Passage: ` in front of the input. This ensure the query and retrieval targets are correctly embedded into the correct space.
-
+- You must add `Query: ` or `Passage: ` in front of the input. [Check this table for the details](#consistency-wrt-automodelfrom_pretrained).
+ 
 ## Multimodal Task-Specific Models
 
 TBA
@@ -78,7 +78,16 @@ curl -X POST "http://127.0.0.1:8080/v1/embeddings" \
   }'
 ```
 
-### Consistent Result vs `AutoModel.from_pretrained`
+
+You can also use `llama-embedding` for one-shot embedding:
+
+```bash
+llama-embedding -hf jinaai/jina-embeddings-v4-text-matching-GGUF:F16 --pooling mean -p "Query: jina is awesome" --embd-output-format json  2>/dev/null
+```
+
+## Remarks
+
+### Consistency wrt. `AutoModel.from_pretrained`
 
 To get fully consistent results as if you were [using `AutoModel.from_pretrained("jinaai/jina-embeddings-v4")...`](https://huggingface.co/jinaai/jina-embeddings-v4#usage), you need to be **very careful** about the prefixes and manually add them to your GGUF model inputs. Here's a reference table:
 
@@ -95,10 +104,7 @@ To get fully consistent results as if you were [using `AutoModel.from_pretrained
 
 To some users, ⚠️ indicates a somewhat surprising behavior where `prompt_name='passage'` gets overridden to `"Query: "` when using `text-matching` in the original `AutoModel.from_pretrained("jinaai/jina-embeddings-v4")....` However, this is reasonable since `text-matching` is a sentence similarity task with no left/right roles—the inputs are symmetric.
 
-You can also use `llama-embedding` for one-shot embedding:
 
-```bash
-llama-embedding -hf jinaai/jina-embeddings-v4-text-matching-GGUF:F16 --pooling mean -p "jina is awesome"  2>/dev/null
-```
+### Matryoshka embeddings
 
 Note, v4 is trained with Matryoshka embeddings, and converting to GGUF doesn't break the Matryoshka feature. Let's say you get embeddings with shape `NxD` - you can simply use `embeddings[:, :truncate_dim]` to get smaller truncated embeddings. Note that not every dimension is trained though. For v4, you can set `truncate_dim` to any of these values: `[128, 256, 512, 1024, 2048]`.
