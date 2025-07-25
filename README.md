@@ -23,7 +23,7 @@ Here, we removed the visual components of qwen2.5-vl and merged all LoRA adapter
 | [`jinaai/jina-embeddings-v4-text-code-GGUF`](https://huggingface.co/jinaai/jina-embeddings-v4-text-code-GGUF) | Code retrieval |
 | [`jinaai/jina-embeddings-v4-text-matching-GGUF`](https://huggingface.co/jinaai/jina-embeddings-v4-text-matching-GGUF) | Sentence similarity |
 
-All models above provide F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q3_K_M quantizations. More quantizations such as Unsloth-like dynamic quantizations are on the way.
+All models above provide F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q3_K_M and dynamic quantizations such as IQ1_S, IQ2_XXS.
 
 ### Limitations
 - They can not handle image input.
