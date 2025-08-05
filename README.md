@@ -116,6 +116,6 @@ We use [`llama-quantize`](./quantize.sh) with `imatrix` to quantize models from 
 
 Here's the speed and quality evaluation on two nano benchmarks. The higher the better.
 
-![](gguf-on-l4.svg)
+![](gguf-v4-on-l4.svg)
 ![](NanoFiQA2018.svg)
 ![](NanoHotpotQA.svg)
