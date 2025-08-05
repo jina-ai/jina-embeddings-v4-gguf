@@ -120,7 +120,46 @@ Here's the speed and quality evaluation on two nano benchmarks. The higher the b
 ![](https://raw.githubusercontent.com/jina-ai/jina-embeddings-v4-gguf/refs/heads/main/NanoHotpotQA.svg)
 ![](https://raw.githubusercontent.com/jina-ai/jina-embeddings-v4-gguf/refs/heads/main/NanoFiQA2018.svg)
 
-#### NDCG@5
+#### Table 1: Tokens per Second
+
+```
+llama_context: n_seq_max     = 1
+llama_context: n_ctx         = 4096
+llama_context: n_ctx_per_seq = 4096
+llama_context: n_batch       = 4096
+llama_context: n_ubatch      = 4096
+llama_context: causal_attn   = 1
+llama_context: flash_attn    = 0
+llama_context: kv_unified    = true
+llama_context: freq_base     = 1000000.0
+llama_context: freq_scale    = 1
+llama_context: n_ctx_per_seq (4096) < n_ctx_train (128000) -- the full capacity of the model will not be utilized
+
+system_info: n_threads = 4 (n_threads_batch = 4) / 8 | CUDA : ARCHS = 890 | USE_GRAPHS = 1 | PEER_MAX_BATCH_SIZE = 128 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VNNI = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+```
+
+| Quantization Type | File Size | BPW | NanoHotpotQA | NanoFiQA2018 | Δ to F16 (HotpotQA) | Δ to F16 (FiQA2018) |
+|------------------|-----------|-----|--------------|--------------|--------------------|--------------------|
+| IQ1_S | 748.77 MiB | 2.04 | 1608 | 1618 | +53% | +49% |
+| IQ1_M | 804.97 MiB | 2.19 | 1553 | 1563 | +48% | +44% |
+| IQ2_XXS | 898.64 MiB | 2.44 | 1600 | 1612 | +52% | +49% |
+| IQ2_M | 1.06 GiB | 2.94 | 1529 | 1534 | +46% | +42% |
+| Q2_K | 1.18 GiB | 3.29 | 1459 | 1471 | +39% | +36% |
+| IQ3_XXS | 1.19 GiB | 3.31 | 1552 | 1487 | +48% | +37% |
+| IQ3_XS | 1.29 GiB | 3.59 | 1529 | 1526 | +46% | +41% |
+| IQ3_S | 1.35 GiB | 3.76 | 1520 | 1516 | +45% | +40% |
+| IQ3_M | 1.38 GiB | 3.84 | 1507 | 1511 | +44% | +40% |
+| Q3_K_M | 1.48 GiB | 4.11 | 1475 | 1487 | +40% | +37% |
+| IQ4_NL | 1.69 GiB | 4.72 | 1464 | 1469 | +39% | +36% |
+| IQ4_XS | 1.61 GiB | 4.49 | 1478 | 1487 | +41% | +37% |
+| Q4_K_M | 1.79 GiB | 4.99 | 1454 | 1458 | +38% | +35% |
+| Q5_K_S | 2.02 GiB | 5.61 | 1419 | 1429 | +35% | +32% |
+| Q5_K_M | 2.07 GiB | 5.75 | 1404 | 1433 | +34% | +32% |
+| Q6_K | 2.36 GiB | 6.56 | 1356 | 1382 | +29% | +28% |
+| Q8_0 | 3.05 GiB | 8.50 | 1304 | 1334 | +24% | +23% |
+| F16 | 5.75 GiB | 16.00 | 1050 | 1083 | +0% | +0% |
+
+#### Table 2: NDCG@5
 | Quantization Type | NanoHotpotQA | NanoFiQA2018 | Δ to v3 (HotpotQA) | Δ to v4 (HotpotQA) | Δ to v3 (FiQA2018) | Δ to v4 (FiQA2018) |
 |------------------|--------------|--------------|-------------------|-------------------|-------------------|-------------------|
 | IQ1_S | 0.6369 | 0.3178 | -14% | -20% | -38% | -43% |
@@ -144,24 +183,4 @@ Here's the speed and quality evaluation on two nano benchmarks. The higher the b
 | jinaai-jina-embeddings-v3 | 0.7393 | 0.5144 | +0% | -7% | +0% | -8% |
 | jinaai-jina-embeddings-v4 | 0.7977 | 0.5571 | +8% | +0% | +8% | +0% |
 
-#### Tokens per Second
-| Quantization Type | NanoHotpotQA | NanoFiQA2018 | Δ to F16 (HotpotQA) | Δ to F16 (FiQA2018) |
-|------------------|--------------|--------------|--------------------|--------------------|
-| IQ1_S | 1608 | 1618 | +53% | +49% |
-| IQ1_M | 1553 | 1563 | +48% | +44% |
-| IQ2_XXS | 1600 | 1612 | +52% | +49% |
-| IQ2_M | 1529 | 1534 | +46% | +42% |
-| Q2_K | 1459 | 1471 | +39% | +36% |
-| IQ3_XXS | 1552 | 1487 | +48% | +37% |
-| IQ3_XS | 1529 | 1526 | +46% | +41% |
-| IQ3_S | 1520 | 1516 | +45% | +40% |
-| IQ3_M | 1507 | 1511 | +44% | +40% |
-| Q3_K_M | 1475 | 1487 | +40% | +37% |
-| IQ4_NL | 1464 | 1469 | +39% | +36% |
-| IQ4_XS | 1478 | 1487 | +41% | +37% |
-| Q4_K_M | 1454 | 1458 | +38% | +35% |
-| Q5_K_S | 1419 | 1429 | +35% | +32% |
-| Q5_K_M | 1404 | 1433 | +34% | +32% |
-| Q6_K | 1356 | 1382 | +29% | +28% |
-| Q8_0 | 1304 | 1334 | +24% | +23% |
-| F16 | 1050 | 1083 | +0% | +0% |
+
