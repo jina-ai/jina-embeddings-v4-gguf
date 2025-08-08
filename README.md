@@ -183,11 +183,8 @@ main: n_tokens in batch = 0
 main: number of embeddings = 5090
 ```
 
-
-
 #### Table 2: NDCG@5
-## NDCG@5 Performance Comparison
-| Quant | NanoHotpotQA | NanoFiQA2018 | NanoArguAna | NanoNFCorpus | NanoSciFact | Δ to v3 (HotpotQA) | Δ to v4 (HotpotQA) | Δ to v3 (FiQA2018) | Δ to v4 (FiQA2018) | Δ to v3 (ArguAna) | Δ to v4 (ArguAna) | Δ to v3 (NFCorpus) | Δ to v4 (NFCorpus) | Δ to v3 (SciFact) | Δ to v4 (SciFact) |
+| Quantization | NanoHotpotQA | NanoFiQA2018 | NanoArguAna | NanoNFCorpus | NanoSciFact | Δ to v3 (HotpotQA) | Δ to v4 (HotpotQA) | Δ to v3 (FiQA2018) | Δ to v4 (FiQA2018) | Δ to v3 (ArguAna) | Δ to v4 (ArguAna) | Δ to v3 (NFCorpus) | Δ to v4 (NFCorpus) | Δ to v3 (SciFact) | Δ to v4 (SciFact) |
 |------------------|--------------|--------------|-------------|--------------|-------------|-------------------|-------------------|-------------------|-------------------|------------------|------------------|-------------------|-------------------|------------------|------------------|
 | IQ1_S | 0.6369 | 0.3178 | 0.3798 | 0.2933 | 0.5934 | -14% | -20% | -38% | -43% | -17% | -22% | -28% | -33% | -24% | -25% |
 | IQ1_M | 0.6316 | 0.3313 | 0.5167 | 0.3256 | 0.6114 | -15% | -21% | -36% | -41% | +12% | +7% | -20% | -25% | -22% | -23% |
