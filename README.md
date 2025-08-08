@@ -116,33 +116,30 @@ We use [`llama-quantize`](./quantize.sh) with `imatrix` to quantize models from 
 
 Here's the speed and quality evaluation on two nano benchmarks. The higher the better. `IQ3_S` seems to be a good balance between size and speed.
 
-![](https://raw.githubusercontent.com/jina-ai/jina-embeddings-v4-gguf/refs/heads/main/gguf-v4-on-l4.svg)
-![](https://raw.githubusercontent.com/jina-ai/jina-embeddings-v4-gguf/refs/heads/main/NanoHotpotQA.svg)
-![](https://raw.githubusercontent.com/jina-ai/jina-embeddings-v4-gguf/refs/heads/main/NanoFiQA2018.svg)
+#### Table 1: Tokens per Second on NanoHotpotQA `Documents`
 
-#### Table 1: Tokens per Second on NanoHotpotQA Documents
-
-
-| Quantization Type | File Size | BPW | Peak VRAM | Token/s | Δ to F16 |
-|------------------|-----------|-----|-----------|--------------|----------|
-| IQ1_S | 748.77 MiB | 2.04 | 3651MB | 3625 | +7% |
-| IQ1_M | 804.97 MiB | 2.19 | 3799MB | 3349 | -1% |
-| IQ2_XXS | 898.64 MiB | 2.44 | 3799MB | 3701 | +9% |
-| IQ2_M | 1.06 GiB | 2.94 | 3983MB | 3407 | +0% |
-| Q2_K | 1.18 GiB | 3.29 | 4113MB | 3173 | -7% |
-| IQ3_XXS | 1.19 GiB | 3.31 | 4119MB | 3668 | +8% |
-| IQ3_XS | 1.29 GiB | 3.59 | 4221MB | 3604 | +6% |
-| IQ3_S | 1.35 GiB | 3.76 | 4283MB | 3599 | +6% |
-| IQ3_M | 1.38 GiB | 3.84 | 4315MB | 3603 | +6% |
-| Q3_K_M | 1.48 GiB | 4.11 | 4411MB | 3450 | +2% |
-| IQ4_NL | 1.69 GiB | 4.72 | 4635MB | 3571 | +5% |
-| IQ4_XS | 1.61 GiB | 4.49 | 4553MB | 3585 | +5% |
-| Q4_K_M | 1.79 GiB | 4.99 | 4735MB | 3558 | +5% |
-| Q5_K_S | 2.02 GiB | 5.61 | 4963MB | 3567 | +5% |
-| Q5_K_M | 2.07 GiB | 5.75 | 5017MB | 3528 | +4% |
-| Q6_K | 2.36 GiB | 6.56 | 5315MB | 3334 | -2% |
-| Q8_0 | 3.05 GiB | 8.50 | 6027MB | 3767 | +11% |
-| F16 | 5.75 GiB | 16.00 | 9939MB | 3399 | +0% |
+| Quantization | File Size | BPW | Peak VRAM | Token/s w/ FA | Token/s w/o FA |
+|------------------|-----------|-----|-----------|--------------|----------------|
+| IQ1_S | 748.77 MiB | 2.04 | 4137MB | 3625 | 2050 |
+| IQ1_M | 804.97 MiB | 2.19 | 4193MB | 3349 | 1997 |
+| IQ2_XXS | 898.64 MiB | 2.44 | 4287MB | 3701 | 2071 |
+| IQ2_M | 1.06 GiB | 2.94 | 4471MB | 3407 | 1989 |
+| Q2_K | 1.18 GiB | 3.29 | 4599MB | 3173 | 1905 |
+| IQ3_XXS | 1.19 GiB | 3.31 | 4605MB | 3668 | 2067 |
+| IQ3_XS | 1.29 GiB | 3.59 | 4709MB | 3604 | 2053 |
+| IQ3_S | 1.35 GiB | 3.76 | 4771MB | 3599 | 2049 |
+| IQ3_M | 1.38 GiB | 3.84 | 4803MB | 3603 | 2053 |
+| Q3_K_M | 1.48 GiB | 4.11 | 4899MB | 3450 | 2008 |
+| IQ4_NL | 1.69 GiB | 4.72 | 5123MB | 3571 | 2039 |
+| IQ4_XS | 1.61 GiB | 4.49 | 5041MB | 3585 | 2046 |
+| Q4_K_M | 1.79 GiB | 4.99 | 5223MB | 3558 | 2045 |
+| Q5_K_S | 2.02 GiB | 5.61 | 5451MB | 3567 | 2044 |
+| Q5_K_M | 2.07 GiB | 5.75 | 5505MB | 3528 | 2034 |
+| Q6_K | 2.36 GiB | 6.56 | 5801MB | 3334 | 1981 |
+| Q8_0 | 3.05 GiB | 8.50 | 6513MB | 3767 | 2101 |
+| F16 | 5.75 GiB | 16.00 | 9929MB | 3399 | 2023 |
+| v3 (Transformers) | 1.10 GiB | 16.00 | 2887MB | | 16505 |
+| v4 (Transformers) | 7.40 GiB | 16.00 | 14795MB | | 1865 |
 
 
 System info:
@@ -161,7 +158,7 @@ llama_context: n_ctx_per_seq = 4096
 llama_context: n_batch       = 4096
 llama_context: n_ubatch      = 4096
 llama_context: causal_attn   = 1
-llama_context: flash_attn    = 1
+llama_context: flash_attn    = 1  // 1 for w/ FA in the table; 0 for w/o FA
 llama_context: kv_unified    = true
 llama_context: freq_base     = 1000000.0
 llama_context: freq_scale    = 1
@@ -210,7 +207,7 @@ main: number of embeddings = 5090
 | Q6_K | 0.7951 | 0.5636 | 0.4822 | 0.4337 | 0.7846 | +8% | +0% | +10% | +1% | +5% | -0% | +7% | -0% | +0% | -1% |
 | Q8_0 | 0.7938 | 0.5687 | 0.4784 | 0.4335 | 0.7851 | +7% | +0% | +11% | +2% | +4% | -1% | +7% | -0% | +0% | -1% |
 | F16 | 0.7940 | 0.5610 | 0.4931 | 0.4343 | 0.7963 | +7% | +0% | +9% | +1% | +7% | +2% | +7% | -0% | +2% | +0% |
-| jinaai-jina-embeddings-v3 | 0.7393 | 0.5144 | 0.4600 | 0.4068 | 0.7820 | +0% | -7% | +0% | -8% | +0% | -5% | +0% | -6% | +0% | -2% |
-| jinaai-jina-embeddings-v4 | 0.7977 | 0.5571 | 0.4844 | 0.4351 | 0.7963 | +8% | +0% | +8% | +0% | +5% | +0% | +7% | +0% | +2% | +0% |
+| v3 (Transformers) | 0.7393 | 0.5144 | 0.4600 | 0.4068 | 0.7820 | +0% | -7% | +0% | -8% | +0% | -5% | +0% | -6% | +0% | -2% |
+| v4 (Transformers) | 0.7977 | 0.5571 | 0.4844 | 0.4351 | 0.7963 | +8% | +0% | +8% | +0% | +5% | +0% | +7% | +0% | +2% | +0% |
 
 
