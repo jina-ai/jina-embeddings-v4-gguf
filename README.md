@@ -120,44 +120,73 @@ Here's the speed and quality evaluation on two nano benchmarks. The higher the b
 ![](https://raw.githubusercontent.com/jina-ai/jina-embeddings-v4-gguf/refs/heads/main/NanoHotpotQA.svg)
 ![](https://raw.githubusercontent.com/jina-ai/jina-embeddings-v4-gguf/refs/heads/main/NanoFiQA2018.svg)
 
-#### Table 1: Tokens per Second
+#### Table 1: Tokens per Second on NanoHotpotQA Documents
 
+
+| Quantization Type | File Size | BPW | Peak VRAM | Token/s | Δ to F16 |
+|------------------|-----------|-----|-----------|--------------|----------|
+| IQ1_S | 748.77 MiB | 2.04 | 3651MB | 3625 | +7% |
+| IQ1_M | 804.97 MiB | 2.19 | 3799MB | 3349 | -1% |
+| IQ2_XXS | 898.64 MiB | 2.44 | 3799MB | 3701 | +9% |
+| IQ2_M | 1.06 GiB | 2.94 | 3983MB | 3407 | +0% |
+| Q2_K | 1.18 GiB | 3.29 | 4113MB | 3173 | -7% |
+| IQ3_XXS | 1.19 GiB | 3.31 | 4119MB | 3668 | +8% |
+| IQ3_XS | 1.29 GiB | 3.59 | 4221MB | 3604 | +6% |
+| IQ3_S | 1.35 GiB | 3.76 | 4283MB | 3599 | +6% |
+| IQ3_M | 1.38 GiB | 3.84 | 4315MB | 3603 | +6% |
+| Q3_K_M | 1.48 GiB | 4.11 | 4411MB | 3450 | +2% |
+| IQ4_NL | 1.69 GiB | 4.72 | 4635MB | 3571 | +5% |
+| IQ4_XS | 1.61 GiB | 4.49 | 4553MB | 3585 | +5% |
+| Q4_K_M | 1.79 GiB | 4.99 | 4735MB | 3558 | +5% |
+| Q5_K_S | 2.02 GiB | 5.61 | 4963MB | 3567 | +5% |
+| Q5_K_M | 2.07 GiB | 5.75 | 5017MB | 3528 | +4% |
+| Q6_K | 2.36 GiB | 6.56 | 5315MB | 3334 | -2% |
+| Q8_0 | 3.05 GiB | 8.50 | 6027MB | 3767 | +11% |
+| F16 | 5.75 GiB | 16.00 | 9939MB | 3399 | +0% |
+
+
+System info:
 ```
+load_tensors: loading model tensors, this can take a while... (mmap = true)
+load_tensors: offloading 36 repeating layers to GPU
+load_tensors: offloading output layer to GPU
+load_tensors: offloaded 37/37 layers to GPU
+load_tensors:        CUDA0 model buffer size =  3127.61 MiB
+load_tensors:   CPU_Mapped model buffer size =   315.30 MiB
+...................................................................................
+llama_context: constructing llama_context
 llama_context: n_seq_max     = 1
 llama_context: n_ctx         = 4096
 llama_context: n_ctx_per_seq = 4096
 llama_context: n_batch       = 4096
 llama_context: n_ubatch      = 4096
 llama_context: causal_attn   = 1
-llama_context: flash_attn    = 0
+llama_context: flash_attn    = 1
 llama_context: kv_unified    = true
 llama_context: freq_base     = 1000000.0
 llama_context: freq_scale    = 1
 llama_context: n_ctx_per_seq (4096) < n_ctx_train (128000) -- the full capacity of the model will not be utilized
+llama_context:  CUDA_Host  output buffer size =     0.59 MiB
+llama_kv_cache_unified:      CUDA0 KV buffer size =   144.00 MiB
+llama_kv_cache_unified: size =  144.00 MiB (  4096 cells,  36 layers,  1/1 seqs), K (f16):   72.00 MiB, V (f16):   72.00 MiB
+llama_context:      CUDA0 compute buffer size =  2470.16 MiB
+llama_context:  CUDA_Host compute buffer size =    96.17 MiB
+llama_context: graph nodes  = 1234
+llama_context: graph splits = 2
+common_init_from_params: added <|endoftext|> logit bias = -inf
+common_init_from_params: added <|im_end|> logit bias = -inf
+common_init_from_params: added <|fim_pad|> logit bias = -inf
+common_init_from_params: added <|repo_name|> logit bias = -inf
+common_init_from_params: added <|file_sep|> logit bias = -inf
+common_init_from_params: setting dry_penalty_last_n to ctx_size = 4096
+common_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)
 
 system_info: n_threads = 4 (n_threads_batch = 4) / 8 | CUDA : ARCHS = 890 | USE_GRAPHS = 1 | PEER_MAX_BATCH_SIZE = 128 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VNNI = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+main: n_tokens in batch = 0
+main: number of embeddings = 5090
 ```
 
-| Quantization Type | File Size | BPW | NanoHotpotQA | NanoFiQA2018 | Δ to F16 (HotpotQA) | Δ to F16 (FiQA2018) |
-|------------------|-----------|-----|--------------|--------------|--------------------|--------------------|
-| IQ1_S | 748.77 MiB | 2.04 | 1608 | 1618 | +53% | +49% |
-| IQ1_M | 804.97 MiB | 2.19 | 1553 | 1563 | +48% | +44% |
-| IQ2_XXS | 898.64 MiB | 2.44 | 1600 | 1612 | +52% | +49% |
-| IQ2_M | 1.06 GiB | 2.94 | 1529 | 1534 | +46% | +42% |
-| Q2_K | 1.18 GiB | 3.29 | 1459 | 1471 | +39% | +36% |
-| IQ3_XXS | 1.19 GiB | 3.31 | 1552 | 1487 | +48% | +37% |
-| IQ3_XS | 1.29 GiB | 3.59 | 1529 | 1526 | +46% | +41% |
-| IQ3_S | 1.35 GiB | 3.76 | 1520 | 1516 | +45% | +40% |
-| IQ3_M | 1.38 GiB | 3.84 | 1507 | 1511 | +44% | +40% |
-| Q3_K_M | 1.48 GiB | 4.11 | 1475 | 1487 | +40% | +37% |
-| IQ4_NL | 1.69 GiB | 4.72 | 1464 | 1469 | +39% | +36% |
-| IQ4_XS | 1.61 GiB | 4.49 | 1478 | 1487 | +41% | +37% |
-| Q4_K_M | 1.79 GiB | 4.99 | 1454 | 1458 | +38% | +35% |
-| Q5_K_S | 2.02 GiB | 5.61 | 1419 | 1429 | +35% | +32% |
-| Q5_K_M | 2.07 GiB | 5.75 | 1404 | 1433 | +34% | +32% |
-| Q6_K | 2.36 GiB | 6.56 | 1356 | 1382 | +29% | +28% |
-| Q8_0 | 3.05 GiB | 8.50 | 1304 | 1334 | +24% | +23% |
-| F16 | 5.75 GiB | 16.00 | 1050 | 1083 | +0% | +0% |
+
 
 #### Table 2: NDCG@5
 ## NDCG@5 Performance Comparison
