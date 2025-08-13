@@ -7,6 +7,8 @@ base_model_relation: quantized
 
 # jina-embeddings-v4-gguf
 
+[Read this blog post for more details](https://jina.ai/news/optimizing-ggufs-for-decoder-only-embedding-models)
+
 A collection of GGUF and quantizations for [`jina-embeddings-v4`](https://huggingface.co/jinaai/jina-embeddings-v4).
 
 ## Overview
