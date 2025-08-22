@@ -1,5 +1,4 @@
 ---
-license: Qwen Research License
 base_model:
 - jinaai/jina-embeddings-v4
 base_model_relation: quantized
