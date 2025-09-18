@@ -11,6 +11,8 @@ A collection of GGUF and quantizations for [`jina-embeddings-v4`](https://huggin
 > [!IMPORTANT]
 > We highly recommend to first read [this blog post for more technical details and customized llama.cpp build](https://jina.ai/news/optimizing-ggufs-for-decoder-only-embedding-models).
 
+> [!TIP]
+> Multimodal v4-GGUF is now available, [check out this blog post for the walkthrough](https://jina.ai/news/multimodal-embeddings-in-llama-cpp-and-gguf/).
 
 
 ## Overview
@@ -34,9 +36,9 @@ All models above provide F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q3_K_M and dynamic qua
 - They can not output multi-vector embeddings.
 - You must add `Query: ` or `Passage: ` in front of the input. [Check this table for the details](#consistency-wrt-automodelfrom_pretrained).
  
-## Multimodal Task-Specific Models
+## Multimodal Retrieval Model
 
-TBA
+We forked llama.cpp and make it work with image input and embedding output. [Check out this new blog post for the walkthrough](https://jina.ai/news/multimodal-embeddings-in-llama-cpp-and-gguf/).
 
 ## Get Embeddings
 
